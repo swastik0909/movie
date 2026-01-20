@@ -33,7 +33,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      process.env.FRONTEND_URL || "*" // Allow env var or wildcard as fallback for now
+      "https://movie-xi-seven.vercel.app", // ✅ Vercel Frontend
+      process.env.FRONTEND_URL || "*"
     ],
     credentials: true,
   })
