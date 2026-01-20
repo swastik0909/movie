@@ -1,0 +1,3 @@
+- [x] Fix rendering logic in TrendingMovie.tsx to show first 10 items by default, all when expanded
+- [x] Fix rendering logic in TrendingTv.tsx to show first 10 items by default, all when expanded
+- [x] Fix typo in useTrendingList.ts: "fetechTrending" to "fetchTrending"
