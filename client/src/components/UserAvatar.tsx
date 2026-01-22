@@ -23,15 +23,14 @@ const UserAvatar = ({ size = 36 }: Props) => {
     );
   }
 
-  return (
   // helper to resolve URL
   const getAvatarUrl = (path: string) => {
-      if (path.startsWith("http")) return path;
-      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
-      // strip /api if present to get server root for uploads
-      const serverRoot = baseUrl.replace(/\/api$/, "");
-      return `${serverRoot}${path}`;
-    };
+    if (path.startsWith("http")) return path;
+    const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+    // strip /api if present to get server root for uploads
+    const serverRoot = baseUrl.replace(/\/api$/, "");
+    return `${serverRoot}${path}`;
+  };
 
   return (
     <img
