@@ -14,6 +14,15 @@ const Newbar = () => {
   const [open, setOpen] = useState(false); // Profile dropdown
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); // Mobile menu drawer
 
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  // If VITE_API_URL is set (e.g. https://api.site.com/api), we assume images are at https://api.site.com
+  // But our backend usually serves uploads at /uploads relative to root. 
+  // If VITE_API_URL includes /api, we should strip it if we're constructing a root URL for static files.
+  // A safer bet: if the backend returns specific paths, adjusting the base.
+
+  // Strategy: Define a FILE_BASE_URL helper
+  const fileBaseUrl = apiUrl.replace("/api", "");
+
   if (!auth || !auth.user) return null;
 
   const { user, logout } = auth;
@@ -96,7 +105,7 @@ const Newbar = () => {
             >
               {user.avatar ? (
                 <img
-                  src={`http://localhost:5000${user.avatar}`}
+                  src={`${fileBaseUrl}${user.avatar}`}
                   className="w-full h-full object-cover"
                 />
               ) : (

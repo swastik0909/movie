@@ -1,6 +1,11 @@
 import { useContext, useState } from "react";
 import { AuthContext } from "@/context/AuthContext";
 
+const getFileBaseUrl = () => {
+  const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+  return apiUrl.replace("/api", "");
+};
+
 const PRESET_AVATARS = [
   "/avatars/avatar1.png",
   "/avatars/avatar2.png",
@@ -20,7 +25,7 @@ const Profile = () => {
   const [showAvatarModal, setShowAvatarModal] = useState(false);
   const [previewAvatar, setPreviewAvatar] = useState<string>(
     user?.avatar
-      ? `http://localhost:5000${user.avatar}`
+      ? `${getFileBaseUrl()}${user.avatar}`
       : "/avatar.png"
   );
 

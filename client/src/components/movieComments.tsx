@@ -86,14 +86,14 @@ const Comments = ({ mediaId, mediaType }: Props) => {
   /* 🚫 REPORT COMMENT */
   const handleReport = async (commentId: string) => {
     try {
+      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
       await fetch(
-        `http://localhost:5000/api/comments/${commentId}/report`,
+        `${baseUrl}/comments/${commentId}/report`,
         {
           method: "POST",
           headers: {
-            Authorization: `Bearer ${
-              localStorage.getItem("token") || ""
-            }`,
+            Authorization: `Bearer ${localStorage.getItem("token") || ""
+              }`,
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
@@ -151,7 +151,7 @@ const Comments = ({ mediaId, mediaType }: Props) => {
                   <img
                     src={
                       c.user.avatar
-                        ? `http://localhost:5000${c.user.avatar}`
+                        ? `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}`.replace("/api", "") + c.user.avatar
                         : "/avatar.png"
                     }
                     className="w-8 h-8 rounded-full object-cover"

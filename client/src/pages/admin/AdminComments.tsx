@@ -81,7 +81,7 @@ const AdminComments = () => {
                 <img
                   src={
                     c.user.avatar
-                      ? `http://localhost:5000${c.user.avatar}`
+                      ? `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}`.replace("/api", "") + c.user.avatar
                       : "/avatar.png"
                   }
                   className="w-9 h-9 rounded-full"

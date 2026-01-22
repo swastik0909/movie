@@ -139,7 +139,7 @@ const TvComments = ({ mediaId }: { mediaId: string }) => {
                   <img
                     src={
                       c.user.avatar
-                        ? `http://localhost:5000${c.user.avatar}`
+                        ? `${import.meta.env.VITE_API_URL || "http://localhost:5000/api"}`.replace("/api", "") + c.user.avatar
                         : "/avatar.png"
                     }
                     className="w-8 h-8 rounded-full object-cover"
