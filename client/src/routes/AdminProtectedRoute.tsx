@@ -11,7 +11,16 @@ const AdminProtectedRoute = ({
 
   if (!auth) return null;
 
-  const { user } = auth;
+  const { user, isLoading } = auth;
+
+  // ⏳ Wait for session check
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-zinc-900 text-white">
+        Loading...
+      </div>
+    );
+  }
 
   // 🔐 Not logged in
   if (!user) {

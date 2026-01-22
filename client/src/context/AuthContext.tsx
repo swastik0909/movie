@@ -23,6 +23,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
+  isLoading: boolean; // ✅ NEW: Loading state
 
   // 🔑 login now RETURNS user (IMPORTANT)
   login: (
@@ -50,31 +51,40 @@ export const AuthProvider = ({
   children: ReactNode;
 }) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true); // ✅ Start loading
 
   /* 🔄 LOAD USER FROM STORAGE */
   useEffect(() => {
     const u = localStorage.getItem("user");
-    if (u) setUser(JSON.parse(u));
+    if (u) {
+      try {
+        setUser(JSON.parse(u));
+      } catch (e) {
+        console.error("Failed to parse user from local storage", e);
+        localStorage.removeItem("user");
+      }
+    }
+    setIsLoading(false); // ✅ Done loading
   }, []);
 
   /* 🔐 LOGIN (USER + ADMIN) */
-const login = async (
-  email: string,
-  password: string,
-  adminLogin = false
-) => {
-  const res = await loginUser({
-    email,
-    password,
-    adminLogin,
-  });
+  const login = async (
+    email: string,
+    password: string,
+    adminLogin = false
+  ) => {
+    const res = await loginUser({
+      email,
+      password,
+      adminLogin,
+    });
 
-  localStorage.setItem("token", res.data.token);
-  localStorage.setItem("user", JSON.stringify(res.data.user));
-  setUser(res.data.user);
+    localStorage.setItem("token", res.data.token);
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+    setUser(res.data.user);
 
-  return res.data.user;
-};
+    return res.data.user;
+  };
 
 
   /* 📝 SIGNUP */
@@ -124,6 +134,7 @@ const login = async (
     <AuthContext.Provider
       value={{
         user,
+        isLoading,
         login,
         signup,
         logout,

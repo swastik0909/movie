@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import tmdbApi from "@/services/api-client";
+import { GenresContext } from "@/context/genres_context";
 import MovieCard from "./MovieCard";
 
 /* 📅 YEARS */
@@ -18,6 +19,9 @@ const MovieList = () => {
   const [sort, setSort] = useState<string>("popularity.desc");
   const [loading, setLoading] = useState(false);
 
+  // 🌍 Genre Context
+  const { genres } = useContext(GenresContext);
+
   /* 🎬 FETCH MOVIES */
   useEffect(() => {
     setLoading(true);
@@ -28,11 +32,12 @@ const MovieList = () => {
           sort_by: sort,
           primary_release_year: year !== "all" ? year : undefined,
           vote_count_gte: 50,
+          with_genres: genres || undefined, // ✅ Apply genre filter
         },
       })
       .then((res) => setMovies(res.data.results || []))
       .finally(() => setLoading(false));
-  }, [year, sort]);
+  }, [year, sort, genres]); // ✅ Add genres dependency
 
   return (
     <div className="bg-black min-h-screen text-white px-6 md:px-16 py-10">

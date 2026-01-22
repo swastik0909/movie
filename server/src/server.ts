@@ -77,6 +77,12 @@ const connectDB = async () => {
       family: 4, // Force IPv4
     });
     console.log("✅ MongoDB connected");
+
+    // 🛠 Fix Indexes (Syncs schema with DB indices, dropping old/incorrect ones)
+    const Review = (await import("./models/Review")).default;
+    await Review.syncIndexes();
+    console.log("🔄 Review Indexes Synced");
+
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
     });

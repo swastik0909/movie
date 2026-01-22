@@ -8,7 +8,16 @@ const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   // Auth context not ready yet
   if (!auth) return null;
 
-  const { user } = auth;
+  const { user, isLoading } = auth;
+
+  // ⏳ Wait for session check
+  if (isLoading) {
+    return (
+      <div className="h-screen w-full flex items-center justify-center bg-black text-white">
+        Loading...
+      </div>
+    );
+  }
 
   if (!user) {
     return <Navigate to="/login" replace />;
