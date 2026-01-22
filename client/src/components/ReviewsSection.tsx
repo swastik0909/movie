@@ -46,6 +46,22 @@ const ReviewsSection = ({ mediaId, mediaType }: ReviewsSectionProps) => {
         fetchReviews();
     }, [mediaId, mediaType]);
 
+    // Helper to resolve avatar URL
+    const getAvatarUrl = (path: string | undefined) => {
+        if (!path) return undefined;
+        if (path.startsWith("http")) return path;
+        // Remove '/api' from the base URL if it exists, because uploads are usually at root '/uploads'
+        // But here we rely on how the backend serves it. 
+        // If VITE_API_URL is http://locahost:5000/api, we want http://localhost:5000/uploads
+        // So let's extract the origin.
+
+        const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+        // Simple hack: if baseUrl includes /api, remove it to get the server root
+        const serverRoot = baseUrl.replace(/\/api$/, "");
+
+        return `${serverRoot}${path}`;
+    };
+
     const fetchReviews = async () => {
         try {
             const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
@@ -162,7 +178,19 @@ const ReviewsSection = ({ mediaId, mediaType }: ReviewsSectionProps) => {
                             <form onSubmit={handleSubmit}>
                                 <div className="flex items-center gap-3 mb-4">
                                     <div className="w-10 h-10 rounded-full bg-zinc-700 overflow-hidden">
-                                        {user.avatar ? <img src={user.avatar} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white font-bold">{user.name[0]}</div>}
+                                        {user.avatar ? (
+                                            <img
+                                                src={getAvatarUrl(user.avatar)}
+                                                className="w-full h-full object-cover"
+                                                onError={(e) => {
+                                                    e.currentTarget.style.display = 'none';
+                                                    e.currentTarget.parentElement!.innerText = user.name[0];
+                                                    e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'text-white', 'font-bold');
+                                                }}
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full flex items-center justify-center text-white font-bold">{user.name[0]}</div>
+                                        )}
                                     </div>
                                     <span className="text-gray-200 font-medium">@{user.name}</span>
                                 </div>
@@ -243,7 +271,19 @@ const ReviewsSection = ({ mediaId, mediaType }: ReviewsSectionProps) => {
                                     <div className="flex justify-between items-start mb-3">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 rounded-full bg-zinc-800 overflow-hidden">
-                                                {review.user.avatar ? <img src={review.user.avatar} className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-white text-xs">{review.user.name[0]}</div>}
+                                                {review.user.avatar ? (
+                                                    <img
+                                                        src={getAvatarUrl(review.user.avatar)}
+                                                        className="w-full h-full object-cover"
+                                                        onError={(e) => {
+                                                            e.currentTarget.style.display = 'none';
+                                                            e.currentTarget.parentElement!.innerText = review.user.name[0];
+                                                            e.currentTarget.parentElement!.classList.add('flex', 'items-center', 'justify-center', 'text-white', 'text-xs');
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center text-white text-xs">{review.user.name[0]}</div>
+                                                )}
                                             </div>
                                             <div>
                                                 <h4 className="text-gray-200 text-sm font-bold">@{review.user.name}</h4>
