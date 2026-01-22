@@ -79,34 +79,41 @@ export const login = async (req: Request, res: Response) => {
 
 /* 🔑 FORGOT PASSWORD */
 export const forgotPassword = async (req: Request, res: Response) => {
-  const { email } = req.body;
-  const user = await User.findOne({ email });
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ email });
 
-  if (!user) {
-    return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Generate 6 digit OTP
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    // Save OTP to DB (valid for 15 mins)
+    user.resetOtp = otp;
+    user.resetOtpExpiry = new Date(Date.now() + 15 * 60 * 1000);
+    await user.save();
+
+    // Send Email
+    const { sendEmail } = await import("../utils/emailService");
+    const sent = await sendEmail(
+      email,
+      "Password Reset OTP - Movie Plus",
+      `Your OTP is: ${otp}. It is valid for 15 minutes.`
+    );
+
+    if (!sent) {
+      // Return 500 but also log strict error
+      console.error(`Failed to send OTP to ${email}`);
+      return res.status(500).json({ message: "Failed to send OTP email. Please report this to admin." });
+    }
+
+    res.json({ message: "OTP sent to your email" });
+  } catch (error) {
+    console.error("Forgot Password Error:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
-
-  // Generate 6 digit OTP
-  const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-  // Save OTP to DB (valid for 15 mins)
-  user.resetOtp = otp;
-  user.resetOtpExpiry = new Date(Date.now() + 15 * 60 * 1000);
-  await user.save();
-
-  // Send Email
-  const { sendEmail } = await import("../utils/emailService");
-  const sent = await sendEmail(
-    email,
-    "Password Reset OTP - Movie Plus",
-    `Your OTP is: ${otp}. It is valid for 15 minutes.`
-  );
-
-  if (!sent) {
-    return res.status(500).json({ message: "Error sending email" });
-  }
-
-  res.json({ message: "OTP sent to your email" });
 };
 
 /* ✅ VERIFY OTP */
