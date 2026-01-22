@@ -54,7 +54,7 @@ const Login = () => {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.04),transparent_70%)]" />
 
       {/* 🔐 Login Card */}
-      <div className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
+      <div className="relative z-10 w-full max-w-md bg-[#141414]/80 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/10 shadow-2xl">
 
         <h2 className="text-3xl font-bold text-center mb-6 tracking-wide">
           Log in

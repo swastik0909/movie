@@ -61,6 +61,8 @@ export const getReviews = async (req: Request, res: Response) => {
 
         // Calculate stats
         const total = reviews.length;
+        console.log(`[getReviews] Search: type=${mediaType}, id=${mediaId}. Found: ${total}`);
+
         if (total === 0) {
             return res.json({ reviews: [], stats: { percentage: 0, total: 0 } });
         }
@@ -70,7 +72,7 @@ export const getReviews = async (req: Request, res: Response) => {
             (r) => r.category === "Go for it" || r.category === "Perfection"
         ).length;
 
-        const percentage = Math.round((positiveCount / total) * 100);
+        const percentage = total > 0 ? Math.round((positiveCount / total) * 100) : 0;
 
         res.json({
             reviews,

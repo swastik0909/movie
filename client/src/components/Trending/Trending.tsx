@@ -83,25 +83,25 @@ const Trending = () => {
               </span>
             </div>
 
-            <h1 className="text-4xl md:text-6xl font-extrabold mb-5">
+            <h1 className="text-3xl md:text-6xl font-extrabold mb-3 md:mb-5 leading-tight">
               {movie.title}
             </h1>
 
-            <p className="text-gray-300 max-w-xl mb-8 line-clamp-3 text-lg">
+            <p className="text-gray-300 max-w-xl mb-6 md:mb-8 line-clamp-3 text-sm md:text-lg">
               {movie.overview}
             </p>
 
             <div className="flex gap-4">
               <button
                 onClick={() => navigate(`/movie/${movie.id}`)}
-                className="bg-red-600 hover:bg-red-700 transition px-6 py-3 rounded-md font-semibold"
+                className="bg-red-600 hover:bg-red-700 transition px-5 py-2 md:px-6 md:py-3 rounded-md font-semibold text-sm md:text-base"
               >
                 ▶ Watch Now
               </button>
 
               <button
                 onClick={() => navigate(`/movie/${movie.id}`)}
-                className="bg-white/10 hover:bg-white/20 transition px-6 py-3 rounded-md"
+                className="bg-white/10 hover:bg-white/20 transition px-5 py-2 md:px-6 md:py-3 rounded-md text-sm md:text-base"
               >
                 More Info
               </button>

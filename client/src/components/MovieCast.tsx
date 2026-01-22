@@ -39,7 +39,7 @@ const MovieCast = ({ cast }: { cast: Cast[] }) => {
       {/* LEFT ARROW */}
       <button
         onClick={scrollLeft}
-        className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition"
+        className="hidden md:block absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition"
       >
         <ChevronLeft size={26} />
       </button>
@@ -47,7 +47,7 @@ const MovieCast = ({ cast }: { cast: Cast[] }) => {
       {/* RIGHT ARROW */}
       <button
         onClick={scrollRight}
-        className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition"
+        className="hidden md:block absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 hover:bg-black p-2 rounded-full opacity-0 group-hover:opacity-100 transition"
       >
         <ChevronRight size={26} />
       </button>

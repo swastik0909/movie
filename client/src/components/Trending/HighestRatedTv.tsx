@@ -21,7 +21,7 @@ const HighestRatedTv = () => {
     tmdbApi
       .get("/tv/top_rated")
       .then((res) => setTvShows(res.data.results.slice(0, 10)))
-      .catch(() => {});
+      .catch(() => { });
   }, []);
 
   /* 🎞 AUTO SLIDE HERO */
@@ -48,7 +48,7 @@ const HighestRatedTv = () => {
   const hero = tvShows[heroIndex];
 
   return (
-    <section className="space-y-10 px-4 md:px-10 mb-20">
+    <section className="space-y-10 px-4 md:px-10 mb-20 group">
       {/* ================= HERO ================= */}
       <div className="relative h-[60vh] rounded-2xl overflow-hidden bg-[#1f3b55] flex items-center">
         {/* BACKDROP */}
@@ -65,7 +65,7 @@ const HighestRatedTv = () => {
         <div className="absolute inset-0 bg-linear-to-r from-black/90 via-black/60 to-transparent" />
 
         {/* CONTENT */}
-        <div className="relative z-10 px-10 max-w-xl text-white">
+        <div className="relative z-10 px-6 md:px-10 max-w-xl text-white">
           <div className="flex gap-2 mb-4 text-xs">
             <span className="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded">
               HD
@@ -78,7 +78,7 @@ const HighestRatedTv = () => {
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-extrabold mb-4">
+          <h1 className="text-3xl md:text-5xl font-extrabold mb-4 leading-tight">
             {hero.name}
           </h1>
 
@@ -87,13 +87,13 @@ const HighestRatedTv = () => {
             {"★".repeat(Math.round(hero.vote_average / 2))}
           </div>
 
-          <p className="text-gray-200 line-clamp-4 mb-6">
+          <p className="text-gray-200 line-clamp-4 mb-6 text-sm md:text-base">
             {hero.overview}
           </p>
 
           <button
             onClick={() => navigate(`/tvshow/${hero.id}`)}
-            className="bg-cyan-500 hover:bg-cyan-600 transition px-6 py-3 rounded-full font-semibold"
+            className="bg-cyan-500 hover:bg-cyan-600 transition px-6 py-3 rounded-full font-semibold text-sm md:text-base"
           >
             ▶ Watch now
           </button>
@@ -112,7 +112,7 @@ const HighestRatedTv = () => {
                 ▶
               </div>
             </div>
-            <span className="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-white">
+            <span className="absolute top-4 left-4 bg-black/70 px-3 py-1 rounded text-white min-w-[2rem] text-center">
               {String(heroIndex + 1).padStart(2, "0")}
             </span>
           </div>
@@ -129,7 +129,7 @@ const HighestRatedTv = () => {
               behavior: "smooth",
             })
           }
-          className="absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 p-2 rounded-full"
+          className="hidden md:block absolute left-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 p-2 rounded-full hover:bg-black/80 transition opacity-0 group-hover:opacity-100"
         >
           <ChevronLeft size={28} />
         </button>
@@ -142,7 +142,7 @@ const HighestRatedTv = () => {
               behavior: "smooth",
             })
           }
-          className="absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 p-2 rounded-full"
+          className="hidden md:block absolute right-2 top-1/2 -translate-y-1/2 z-20 bg-black/60 p-2 rounded-full hover:bg-black/80 transition opacity-0 group-hover:opacity-100"
         >
           <ChevronRight size={28} />
         </button>
@@ -150,15 +150,15 @@ const HighestRatedTv = () => {
         {/* TV LIST */}
         <div
           ref={sliderRef}
-          className="flex gap-6 overflow-hidden scroll-smooth"
+          className="flex gap-4 md:gap-6 overflow-x-auto md:overflow-hidden scroll-smooth scrollbar-hide pb-4 md:pb-0"
         >
           {tvShows.map((tv, i) => (
             <div
               key={tv.id}
-              className="relative min-w-[200px] hover:scale-105 transition"
+              className="relative min-w-[160px] md:min-w-[200px] hover:scale-105 transition"
             >
               {/* RANK */}
-              <span className="absolute -left-8 bottom-4 text-[100px] font-extrabold text-white/10 select-none">
+              <span className="absolute -left-4 md:-left-8 bottom-4 text-[60px] md:text-[100px] font-extrabold text-white/10 select-none z-[-1]">
                 {i + 1}
               </span>
 

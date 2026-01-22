@@ -63,7 +63,7 @@ const ForgotPassword = () => {
             {/* Background Effects */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(220,38,38,0.1),transparent_70%)]" />
 
-            <div className="relative z-10 w-full max-w-md bg-[#141414]/90 backdrop-blur-xl rounded-2xl p-8 border border-white/10 shadow-2xl">
+            <div className="relative z-10 w-full max-w-md bg-[#141414]/90 backdrop-blur-xl rounded-2xl p-6 md:p-8 border border-white/10 shadow-2xl">
                 <h2 className="text-3xl font-bold text-center mb-2">Recovery</h2>
                 <p className="text-gray-400 text-center mb-8 text-sm">
                     {step === 1 && "Enter your email to receive an OTP"}
