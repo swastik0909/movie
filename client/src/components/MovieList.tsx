@@ -18,6 +18,7 @@ const MovieList = () => {
   const [year, setYear] = useState<string>("all");
   const [sort, setSort] = useState<string>("popularity.desc");
   const [loading, setLoading] = useState(false);
+  const [language, setLanguage] = useState<string>("all"); // ✅ New Language Parameter
 
   // 🌍 Genre Context
   const { genres } = useContext(GenresContext);
@@ -32,12 +33,13 @@ const MovieList = () => {
           sort_by: sort,
           primary_release_year: year !== "all" ? year : undefined,
           vote_count_gte: 50,
-          with_genres: genres || undefined, // ✅ Apply genre filter
+          with_genres: genres || undefined,
+          with_original_language: language !== "all" ? language : undefined, // ✅ Apply Language Filter
         },
       })
       .then((res) => setMovies(res.data.results || []))
       .finally(() => setLoading(false));
-  }, [year, sort, genres]); // ✅ Add genres dependency
+  }, [year, sort, genres, language]); // ✅ Depend on language
 
   return (
     <div className="bg-black min-h-screen text-white px-6 md:px-16 py-10">
@@ -48,6 +50,29 @@ const MovieList = () => {
 
       {/* ================= FILTER BAR ================= */}
       <div className="flex flex-wrap gap-4 mb-10">
+        
+        {/* LANGUAGE FILTER (NEW) */}
+        <select
+          value={language}
+          onChange={(e) => setLanguage(e.target.value)}
+          className="
+            bg-zinc-900 border border-white/10 px-4 py-2 rounded-md text-sm
+            focus:outline-none focus:ring-2 focus:ring-red-600
+          "
+        >
+          <option value="all">All Languages</option>
+          <option value="mr">Marathi</option>
+          <option value="hi">Hindi</option>
+          <option value="bn">Bengali</option>
+          <option value="ta">Tamil</option>
+          <option value="te">Telugu</option>
+          <option value="ml">Malayalam</option>
+          <option value="kn">Kannada</option>
+          <option value="pa">Punjabi</option>
+          <option value="gu">Gujarati</option>
+          <option value="en">English</option>
+        </select>
+
         {/* YEAR FILTER */}
         <select
           value={year}

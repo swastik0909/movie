@@ -10,6 +10,7 @@ import { saveContinueProgress } from "@/services/userApi";
 const SERVERS = [
   { name: "VidSrc", url: (id: string, s: number, e: number) => `https://vidsrc-embed.ru/embed/tv/${id}/${s}/${e}` },
   { name: "VidLink", url: (id: string, s: number, e: number) => `https://vidlink.pro/tv/${id}/${s}/${e}` },
+  { name: "Smashy", url: (id: string, s: number, e: number) => `https://player.smashy.stream/tv/${id}?s=${s}&e=${e}` },
 ];
 
 const PlayerTV = () => {

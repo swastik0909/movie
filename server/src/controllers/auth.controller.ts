@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/User";
+import { sendEmail } from "../utils/emailService";
 
 /* 📝 SIGNUP (USER ONLY) */
 export const signup = async (req: Request, res: Response) => {
@@ -95,19 +96,12 @@ export const forgotPassword = async (req: Request, res: Response) => {
     user.resetOtpExpiry = new Date(Date.now() + 15 * 60 * 1000);
     await user.save();
 
-    // Send Email
-    const { sendEmail } = await import("../utils/emailService");
-    const sent = await sendEmail(
+    // Send Email (Async - Non-blocking)
+    sendEmail(
       email,
       "Password Reset OTP - Movie Plus",
       `Your OTP is: ${otp}. It is valid for 15 minutes.`
-    );
-
-    if (!sent) {
-      // Return 500 but also log strict error
-      console.error(`Failed to send OTP to ${email}`);
-      return res.status(500).json({ message: "Failed to send OTP email. Please report this to admin." });
-    }
+    ).catch(err => console.error("Background Email Error:", err));
 
     res.json({ message: "OTP sent to your email" });
   } catch (error) {

@@ -61,7 +61,7 @@ export const getReviews = async (req: Request, res: Response) => {
 
         // Calculate stats
         const total = reviews.length;
-        console.log(`[getReviews] Search: type=${mediaType}, id=${mediaId}. Found: ${total}`);
+
 
         if (total === 0) {
             return res.json({ reviews: [], stats: { percentage: 0, total: 0 } });

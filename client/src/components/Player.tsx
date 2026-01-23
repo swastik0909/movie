@@ -7,6 +7,7 @@ import userApi from "@/services/userApi";
 const SERVERS = [
   { name: "VidSrc", url: (id: string) => `https://vidsrc-embed.ru/embed/movie/${id}` },
   { name: "VidLink", url: (id: string) => `https://vidlink.pro/movie/${id}` },
+  { name: "Smashy", url: (id: string) => `https://player.smashy.stream/movie/${id}` },
 ];
 
 const Player = () => {
